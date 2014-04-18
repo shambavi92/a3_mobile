@@ -43,7 +43,7 @@
           rry = event.rotationRate.gamma;
           rrz = event.rotationRate.alpha;
           document.getElementById("rr").innerHTML = "rrx: " + rrx + " rry: " + rry + " rrz: " + rrz;
-          if(rrx > 6 || rry > 6 || rrz > 6 || rrx < -6 || rry < -6 || rrz < -6)
+          if(rrx > 4 || rry > 4 || rrz > 4 || rrx < -4 || rry < -4 || rrz < -4)
               document.getElementById("rr-shake").innerHTML = "RR Shake";
         }
 

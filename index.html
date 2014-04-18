@@ -36,7 +36,7 @@
           ay = event.acceleration.y;
           az = event.acceleration.z;
           document.getElementById("acc").innerHTML = "ax: " + ax + " ay: " + ay + " az: " + az;
-          if(ax > 3 || ay > 3 || az > 3 || ax < -3 || ay < -3 || az < -3 )
+          if(ax > 2 || ay > 2 || az > 2 || ax < -2 || ay < -2 || az < -2 )
               docu4ment.getElementById("acc-shake").innerHTML = "Acc Shake";
 
           rrx = event.rotationRate.beta;

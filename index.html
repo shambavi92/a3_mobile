@@ -56,17 +56,16 @@
 
         function displayError(error) {
           var errors = { 1: 'Permission denied', 2: 'Position unavailable', 3: 'Request timeout' };
-          document.getElementById("geolocation").innerHTML="Error: " + errors[error.code];
+          document.getElementById("geolocation-err").innerHTML="Error: " + errors[error.code];
         }
+
         function displayPosition(position) {
-          document.getElementById("geolocation").innerHTML="Latitude: " + position.coords.latitude + ", Longitude: " + position.coords.longitude;
+          document.getElementById("geolocation-disp").innerHTML="Latitude: " + position.coords.latitude + ", Longitude: " + position.coords.longitude;
         }
+
         var timeoutVal = 10 * 1000 * 1000;
-        navigator.geolocation.getCurrentPosition(
-          displayPosition, 
-          displayError,
-          { enableHighAccuracy: true, timeout: timeoutVal, maximumAge: 0 }
-        );
+
+        navigator.geolocation.getCurrentPosition( displayPosition, displayError, { enableHighAccuracy: true, timeout: timeoutVal, maximumAge: 0 });
 
 			});
 		</script>
@@ -153,6 +152,9 @@
   <div id="rr"> </div>
   <div id="acc-shake"> </div>
   <div id="rr-shake"> </div>
+
+  <div id="geolocation-disp"> </div>
+  <div id="geolocation-err"> </div>
 		<!-- Bootstrap -->
 		<script src="bootstrap/js/bootstrap.min.js"></script>
   </body>

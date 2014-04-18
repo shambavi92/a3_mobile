@@ -36,14 +36,14 @@
           ay = event.acceleration.y;
           az = event.acceleration.z;
           document.getElementById("acc").innerHTML = "ax: " + ax + " ay: " + ay + " az: " + az;
-          if(ax > 3 || ay > 3 || az > 3 || ax < -3 || ay < -3 || az < -3 )
-              document.getElementById("acc-shake").innerHTML = "Acc Shake";
+          if(ax > 4 || ay > 4 || az > 4 || ax < -4 || ay < -4 || az < -4 )
+              docu4ment.getElementById("acc-shake").innerHTML = "Acc Shake";
 
           rrx = event.rotationRate.beta;
           rry = event.rotationRate.gamma;
           rrz = event.rotationRate.alpha;
           document.getElementById("rr").innerHTML = "rrx: " + rrx + " rry: " + rry + " rrz: " + rrz;
-          if(rrx > 10 || rry > 10 || rrz > 10 || rrx < -10 || rry < -10 || rrz < -10)
+          if(rrx > 6 || rry > 6 || rrz > 6 || rrx < -6 || rry < -6 || rrz < -6)
               document.getElementById("rr-shake").innerHTML = "RR Shake";
         }
 

@@ -36,28 +36,18 @@
           ay = event.acceleration.y;
           az = event.acceleration.z;
           document.getElementById("acc").innerHTML = "ax: " + ax + " ay: " + ay + " az: " + az;
+          if(ax > 1 || ay > 1 || az > 1)
+              document.getElementById("acc-shake").innerHTML = "Acc Shake";
 
           rrx = event.rotationRate.beta;
           rry = event.rotationRate.gamma;
           rrz = event.rotationRate.alpha;
           document.getElementById("rr").innerHTML = "rrx: " + rrx + " rry: " + rry + " rrz: " + rrz;
+          if(rrx > 1 || rry > 1 || rrz > 1)
+              document.getElementById("rr-shake").innerHTML = "RR Shake";
         }
 
         window.addEventListener ("devicemotion", handleMotionEvent, true);
-
-        window.addEventListener('deviceorientation', function(eventData) {
-          // gamma is the left-to-right tilt in degrees, where right is positive
-          var tiltLeftRight = eventData.gamma;
-          
-          // beta is the front-to-back tilt in degrees, where front is positive
-          var tiltFrontBack = eventData.beta;
-          
-          // alpha is the compass direction the device is facing in degrees
-          var dir = eventData.alpha;
-
-          document.getElementById("tilt").innerHTML = 
-                  "orientation=(" + tiltLeftRight + "," + tiltFrontBack + "," + dir +")";
-        });
 			});
 		</script>
 	</head>
@@ -140,8 +130,9 @@
 	</div>
 
   <div id="acc"> </div>
-  <div id="tilt"> </div>
+  <div id="acc-shake"> </div>
   <div id="rr"> </div>
+  <div id="rr-shake"> </div>
 		<!-- Bootstrap -->
 		<script src="bootstrap/js/bootstrap.min.js"></script>
   </body>

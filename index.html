@@ -22,11 +22,13 @@
 		<script>
       var latitude;
       var longitude;
-			function logDrag(event, ui){
+			function logDrag (event, ui)
+      {
 				console.log(JSON.stringify(ui.position) + " " + event.target.id); 
 			}
 
-      function round(a){
+      function round(a)
+      {
         return Math.round(100*a)/100;
       }
 
@@ -36,8 +38,8 @@
         ay = round(event.acceleration.y);
         az = round(event.acceleration.z);
         document.getElementById("acc").innerHTML = "ax: " + ax + " ay: " + ay + " az: " + az;
-        if(ax > 1 || ay > 1 || az > 1 || ax < -1 || ay < -1 || az < -1 )
-            docu4ment.getElementById("acc-shake").innerHTML = "Acc Shake";
+        if(ax > 1.3 || ay > 1.3 || az > 1.3 || ax < -1.3 || ay < -1.3 || az < -1.3 )
+            document.getElementById("acc-shake").innerHTML = "Acc Shake";
 
         rrx = round(event.rotationRate.beta);
         rry = round(event.rotationRate.gamma);
@@ -58,13 +60,26 @@
         $latitude = position.coords.latitude;
         $longitude = position.coords.longitude;
         document.getElementById("geolocation-disp").innerHTML="Latitude: " + $latitude + ", Longitude: " + $longitude;
+        weather();
       }
 
       function weather() 
       {
-        $api_url = "api.openweathermap.org/data/2.5/weather?lat=".$lat."&lon=".$long;
-        $response = get_response($api_url);
-        
+        $api_url = "api.openweathermap.org/data/2.5/weather?lat=".$latitude."&lon=".$longitude;
+        $.ajax({
+          dataType: 'json',
+          url: api_url,
+          success: function(json)
+          {
+            console.log(JSON.stringify(json));
+            if (json["cod"] =='200'){
+              var weatherinfo = json['weather'];
+                document.getElementById("weather").innerHTML = weatherinfo['main'];
+            }
+            else
+              ;//error
+          }
+        });   
       }
 
 			$(function() { 

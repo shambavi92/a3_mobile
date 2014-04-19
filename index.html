@@ -65,8 +65,7 @@
 
       function weather() 
       {
-        //$api_url = "http://api.openweathermap.org/data/2.5/weather?lat="+ curr_Latitude + "&lon=" + curr_Longitude;
-        $api_url = "http://api.openweathermap.org/data/2.5/weather?lat=70&lon=112";
+        $api_url = "http://api.openweathermap.org/data/2.5/weather?lat="+ curr_Latitude + "&lon=" + curr_Longitude;
         $.ajax({
           dataType: 'json',
           url: $api_url,

@@ -20,6 +20,8 @@
 			.draggable { position: fixed; } 
 		</style>
 		<script>
+      var latitude;
+      var longitude;
 			function logDrag(event, ui){
 				console.log(JSON.stringify(ui.position) + " " + event.target.id); 
 			}
@@ -28,44 +30,58 @@
         return Math.round(100*a)/100;
       }
 
+      function handleMotionEvent (event) 
+      {
+        ax = round(event.acceleration.x);
+        ay = round(event.acceleration.y);
+        az = round(event.acceleration.z);
+        document.getElementById("acc").innerHTML = "ax: " + ax + " ay: " + ay + " az: " + az;
+        if(ax > 1 || ay > 1 || az > 1 || ax < -1 || ay < -1 || az < -1 )
+            docu4ment.getElementById("acc-shake").innerHTML = "Acc Shake";
+
+        rrx = round(event.rotationRate.beta);
+        rry = round(event.rotationRate.gamma);
+        rrz = round(event.rotationRate.alpha);
+        document.getElementById("rr").innerHTML = "rrx: " + rrx + " rry: " + rry + " rrz: " + rrz;
+        if(rrx > 4 || rry > 4 || rrz > 4 || rrx < -4 || rry < -4 || rrz < -4)
+            document.getElementById("rr-shake").innerHTML = "RR Shake";
+      }
+
+      function displayError(error) 
+      {
+          var errors = { 1: 'Permission denied', 2: 'Position unavailable', 3: 'Request timeout' };
+          document.getElementById("geolocation-err").innerHTML="Error: " + errors[error.code];
+      }
+
+      function displayPosition(position) 
+      {
+        $latitude = position.coords.latitude;
+        $longitude = position.coords.longitude;
+        document.getElementById("geolocation-disp").innerHTML="Latitude: " + $latitude + ", Longitude: " + $longitude;
+      }
+
+      function weather() 
+      {
+        $api_url = "api.openweathermap.org/data/2.5/weather?lat=".$lat."&lon=".$long;
+        $response = get_response($api_url);
+        
+      }
+
 			$(function() { 
 				$("#world img").draggable(); 
 				$("#world img").on("dragstart", function(event, ui) { logDrag(event, ui); });
 				$("#world img").on("dragstop" , function(event, ui) { logDrag(event, ui); });
 				$("#world img").on("drag"     , function(event, ui) { logDrag(event, ui); });
 
-          
-        function handleMotionEvent (event) 
-        {
-          ax = round(event.acceleration.x);
-          ay = round(event.acceleration.y);
-          az = round(event.acceleration.z);
-          document.getElementById("acc").innerHTML = "ax: " + ax + " ay: " + ay + " az: " + az;
-          if(ax > 1 || ay > 1 || az > 1 || ax < -1 || ay < -1 || az < -1 )
-              docu4ment.getElementById("acc-shake").innerHTML = "Acc Shake";
-
-          rrx = round(event.rotationRate.beta);
-          rry = round(event.rotationRate.gamma);
-          rrz = round(event.rotationRate.alpha);
-          document.getElementById("rr").innerHTML = "rrx: " + rrx + " rry: " + rry + " rrz: " + rrz;
-          if(rrx > 4 || rry > 4 || rrz > 4 || rrx < -4 || rry < -4 || rrz < -4)
-              document.getElementById("rr-shake").innerHTML = "RR Shake";
-        }
-
+        //-----------------Shake------------------------------------------------------------  
         window.addEventListener ("devicemotion", handleMotionEvent, true);
 
-        function displayError(error) {
-          var errors = { 1: 'Permission denied', 2: 'Position unavailable', 3: 'Request timeout' };
-          document.getElementById("geolocation-err").innerHTML="Error: " + errors[error.code];
-        }
-
-        function displayPosition(position) {
-          document.getElementById("geolocation-disp").innerHTML="Latitude: " + position.coords.latitude + ", Longitude: " + position.coords.longitude;
-        }
-
+        //-----------------Geolocation------------------------------------------------------------
         var timeoutVal = 10 * 1000 * 1000;
-
         navigator.geolocation.getCurrentPosition( displayPosition, displayError, { enableHighAccuracy: true, timeout: timeoutVal, maximumAge: 0 });
+
+        //-----------------Weather------------------------------------------------------------
+
 
 			});
 		</script>
@@ -155,8 +171,11 @@
 
   <div id="geolocation-disp"> </div>
   <div id="geolocation-err"> </div>
-		<!-- Bootstrap -->
-		<script src="bootstrap/js/bootstrap.min.js"></script>
+
+  <div id="weather"> </div>
+	
+  <!-- Bootstrap -->
+	<script src="bootstrap/js/bootstrap.min.js"></script>
   </body>
 </html>
 

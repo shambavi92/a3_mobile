@@ -20,8 +20,8 @@
 			.draggable { position: fixed; } 
 		</style>
 		<script>
-      var latitude;
-      var longitude;
+      var curr_Latitude = 0;
+      var curr_Longitude = 0;
 			function logDrag (event, ui)
       {
 				console.log(JSON.stringify(ui.position) + " " + event.target.id); 
@@ -57,24 +57,38 @@
 
       function displayPosition(position) 
       {
-        $latitude = position.coords.latitude;
-        $longitude = position.coords.longitude;
-        document.getElementById("geolocation-disp").innerHTML="Latitude: " + $latitude + ", Longitude: " + $longitude;
+        curr_Latitude = round(position.coords.latitude);
+        curr_Longitude = round(position.coords.longitude);
+        document.getElementById("geolocation-disp").innerHTML="Latitude: " + curr_Latitude + ", Longitude: " + curr_Longitude;
         weather();
       }
 
       function weather() 
       {
-        $api_url = "api.openweathermap.org/data/2.5/weather?lat=".$latitude."&lon=".$longitude;
+        //$api_url = "http://api.openweathermap.org/data/2.5/weather?lat="+ curr_Latitude + "&lon=" + curr_Longitude;
+        $api_url = "http://api.openweathermap.org/data/2.5/weather?lat=70&lon=112";
         $.ajax({
           dataType: 'json',
-          url: api_url,
+          url: $api_url,
           success: function(json)
           {
             console.log(JSON.stringify(json));
             if (json["cod"] =='200'){
               var weatherinfo = json['weather'];
-                document.getElementById("weather").innerHTML = weatherinfo['main'];
+              if(weatherinfo[0]['main'] == "Thunderstorm")
+                document.getElementById("weather").innerHTML = weatherinfo[0]['main'];
+              else if (weatherinfo[0]['main'] == "Drizzle")
+                document.getElementById("weather").innerHTML = weatherinfo[0]['main'];
+              else if (weatherinfo[0]['main'] == "Rain")
+                document.getElementById("weather").innerHTML = weatherinfo[0]['main'];
+              else if (weatherinfo[0]['main'] == "Snow")
+                document.getElementById("weather").innerHTML = weatherinfo[0]['main'];
+              else if (weatherinfo[0]['main'] == "Clouds")
+                document.getElementById("weather").innerHTML = weatherinfo[0]['main'];
+              else if (weatherinfo[0]['main'] == "Extreme")
+                document.getElementById("weather").innerHTML = weatherinfo[0]['main'];
+              else
+                document.getElementById("weather").innerHTML = weatherinfo[0]['main'];
             }
             else
               ;//error
